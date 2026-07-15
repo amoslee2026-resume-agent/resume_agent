@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>李新春 - 个人面试Agent</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <aside id="sidebar">
+    <div class="sidebar-header" onclick="navigateTo('welcome')">
+      <div class="avatar">李</div>
+      <div class="info"><strong>李新春</strong><small>售前总监 / 资深售前</small></div>
+    </div>
+    <nav id="menu">
+      <a class="menu-item active" data-section="personal" onclick="navigateTo('personal')"><span class="icon">👤</span> 个人信息</a>
+      <a class="menu-item" data-section="skills" onclick="navigateTo('skills')"><span class="icon">🛠️</span> 技术能力</a>
+      <a class="menu-item" data-section="management" onclick="navigateTo('management')"><span class="icon">👥</span> 管理经验</a>
+      <a class="menu-item" data-section="career" onclick="navigateTo('career')"><span class="icon">🏢</span> 企业经历</a>
+      <a class="menu-item" data-section="project-donglu" onclick="toggleDongluMenu()"><span class="icon">⭐</span> <span>东陆AI平台</span><span id="dongluArrow" style="margin-left:auto;font-size:10px;transition:transform 0.3s">▼</span></a>
+      <div id="dongluSubmenu" style="overflow:hidden;max-height:0;transition:max-height 0.4s ease">
+      <a class="menu-item" data-section="donglu-employees" onclick="navigateTo('donglu-employees')" style="padding-left:40px;font-size:13px"><span class="icon">👥</span> 13数字员工·26智能体</a>
+      <a class="menu-item" data-section="donglu-agent-finance" onclick="navigateTo('donglu-agent-finance')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">💰</span> 财务助理(3)</a>
+      <a class="menu-item" data-section="donglu-agent-quote" onclick="navigateTo('donglu-agent-quote')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">📊</span> 报价员(1)</a>
+      <a class="menu-item" data-section="donglu-agent-sales" onclick="navigateTo('donglu-agent-sales')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">🤝</span> 销售助理(3)</a>
+      <a class="menu-item" data-section="donglu-agent-prod" onclick="navigateTo('donglu-agent-prod')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">🏭</span> 生产助理(2)</a>
+      <a class="menu-item" data-section="donglu-agent-process" onclick="navigateTo('donglu-agent-process')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">🔧</span> 工艺助理(1)</a>
+      <a class="menu-item" data-section="donglu-agent-quality" onclick="navigateTo('donglu-agent-quality')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">✅</span> 质检员(1)</a>
+      <a class="menu-item" data-section="donglu-agent-planner" onclick="navigateTo('donglu-agent-planner')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">📋</span> 计划员(4)</a>
+      <a class="menu-item" data-section="donglu-agent-warehouse" onclick="navigateTo('donglu-agent-warehouse')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">📦</span> 仓管员(1)</a>
+      <a class="menu-item" data-section="donglu-agent-rd" onclick="navigateTo('donglu-agent-rd')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">🔬</span> 研发助理(1)</a>
+      <a class="menu-item" data-section="donglu-agent-req" onclick="navigateTo('donglu-agent-req')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">📝</span> 需求分析师(1)</a>
+      <a class="menu-item" data-section="donglu-agent-procure" onclick="navigateTo('donglu-agent-procure')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">🛒</span> 采购员(3)</a>
+      <a class="menu-item" data-section="donglu-agent-pm" onclick="navigateTo('donglu-agent-pm')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">📈</span> 项目经理(3)</a>
+      <a class="menu-item" data-section="donglu-agent-exec" onclick="navigateTo('donglu-agent-exec')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">👔</span> 总裁办秘书(2)</a>
+      </div>
+      <a class="menu-item" data-section="project-gansu" onclick="navigateTo('project-gansu')"><span class="icon">⛏️</span> 甘肃稀土</a>
+      <a class="menu-item" data-section="project-city" onclick="navigateTo('project-city')"><span class="icon">🏙️</span> 城市试点×成熟度</a>
+      <a class="menu-item" data-section="projects" onclick="navigateTo('projects')"><span class="icon">📁</span> 其他项目</a>
+    </nav>
+    <div class="sidebar-footer">
+      <small>📧 1020577381@qq.com<br>📞 13243872871</small>
+    </div>
+  </aside>
+  <main id="main">
+    <header id="topbar">
+      <button id="mobileMenuBtn" onclick="toggleMobileMenu()">☰</button>
+      <span id="breadcrumb">🏠 首页</span>
+      <div class="header-actions">
+        <a href="h5.html" class="mobile-link" target="_blank">📱 H5版</a>
+      </div>
+    </header>
+    <div id="content"><div class="loading">加载中...</div></div>
+  </main>
+</div>
+<script src="data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

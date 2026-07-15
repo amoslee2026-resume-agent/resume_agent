@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>李新春 - 面试Agent (H5)</title>
+<style>
+:root{--p:#3D9F90;--pd:#2E7D6F;--pl:#E8F5F3;--bg:#F5F7FA;--c:#FFF;--t:#1D1D1F;--t2:#6E6E73;--b:#E8E8E8;--r:12px;--h:50px}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Microsoft YaHei',sans-serif;background:var(--bg);color:var(--t);font-size:14px;padding-bottom:70px}
+/* Tab Bar */
+#tabBar{position:fixed;bottom:0;left:0;right:0;background:var(--c);border-top:1px solid var(--b);display:flex;z-index:100;padding-bottom:env(safe-area-inset-bottom)}
+.tab-item{flex:1;text-align:center;padding:6px 0 4px;font-size:10px;color:var(--t2);cursor:pointer;transition:all .2s}
+.tab-item.active{color:var(--p)}
+.tab-item .ti-icon{font-size:20px;display:block;margin-bottom:2px}
+.tab-item .ti-label{font-size:10px}
+/* Header */
+#header{position:sticky;top:0;z-index:50;background:var(--c);padding:12px 16px;border-bottom:1px solid var(--b);display:flex;align-items:center;gap:10px}
+#header .back{font-size:20px;cursor:pointer;display:none}
+#header h1{font-size:16px;font-weight:600;flex:1}
+#header .sub{font-size:11px;color:var(--t2)}
+/* Content */
+.page{padding:12px;display:none}
+.page.active{display:block}
+.card{background:var(--c);border-radius:var(--r);padding:16px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.card-title{font-size:15px;font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+/* Welcome */
+.welcome{text-align:center;padding:30px 16px 16px}
+.welcome .avatar{width:64px;height:64px;border-radius:16px;background:var(--p);color:#fff;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;margin:0 auto 12px}
+.welcome h1{font-size:22px;margin-bottom:4px}
+.welcome .sub{font-size:13px;color:var(--t2);margin-bottom:16px}
+.quick-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.q-item{padding:10px 6px;border-radius:8px;background:var(--pl);color:var(--p);text-align:center;font-size:12px;font-weight:500;cursor:pointer}
+.q-item .qi-icon{font-size:18px;display:block;margin-bottom:2px}
+/* Menu Grid for H5 */
+.menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.mg-item{padding:14px 10px;border-radius:10px;background:var(--c);border:1px solid var(--b);text-align:center;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.03)}
+.mg-item .mgi-icon{font-size:24px;display:block;margin-bottom:4px}
+.mg-item .mgi-label{font-size:12px;font-weight:500}
+/* Contact info */
+.contact-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:16px}
+.contact-row span{font-size:12px;color:var(--t2)}
+/* Advantage */
+.adv-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--b)}
+.adv-item:last-child{border:none}
+.adv-item .ai-icon{font-size:16px;width:24px;flex-shrink:0}
+.adv-item .ai-text{font-size:12px;line-height:1.5}
+/* Skill */
+.skill-cards{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.skill-card{padding:12px;border-radius:8px;background:var(--c);border:1px solid var(--b)}
+.skill-card h4{font-size:13px;margin-bottom:6px}
+.skill-card li{font-size:11px;padding:2px 0;color:var(--t2);list-style:none}
+.skill-card li::before{content:"▸";margin-right:4px;font-weight:700}
+.tags-wrap{display:flex;flex-wrap:wrap;gap:6px}
+.tag-item{padding:4px 10px;border-radius:12px;background:var(--pl);color:var(--p);font-size:11px;font-weight:500}
+/* Timeline */
+.tl{padding-left:16px;position:relative}
+.tl::before{content:'';position:absolute;left:5px;top:6px;bottom:6px;width:2px;background:var(--b)}
+.tl-item{position:relative;padding:0 0 14px 14px}
+.tl-item::before{content:'';position:absolute;left:-11px;top:5px;width:10px;height:10px;border-radius:50%;background:var(--p);border:2px solid var(--c)}
+.tl-item .tip{font-size:10px;color:var(--t2)}
+.tl-item .tlc{font-size:14px;font-weight:600}
+.tl-item .tlr{font-size:11px;color:var(--t2)}
+.tl-item .tld{font-size:11px;color:var(--t);margin-top:2px;line-height:1.4}
+/* Project */
+.proj{border-left:3px solid var(--p);padding-left:12px;margin-bottom:12px}
+.proj h3{font-size:14px;font-weight:600;margin-bottom:2px}
+.proj .pm{font-size:11px;color:var(--t2);margin-bottom:4px}
+.proj .pd{font-size:12px;line-height:1.5;margin-bottom:6px}
+.proj .pt{display:flex;flex-wrap:wrap;gap:4px}
+.proj .pt span{padding:2px 8px;border-radius:8px;background:var(--pl);color:var(--p);font-size:10px}
+/* Architecture */
+.arch{display:flex;align-items:center;margin-bottom:4px}
+.arch .al{padding:3px 8px;border-radius:3px;color:#fff;font-size:10px;font-weight:600;width:80px;text-align:center;flex-shrink:0}
+.arch .ad{padding:3px 8px;font-size:11px;background:var(--bg);border-radius:3px;flex:1;margin-left:4px}
+/* Milestone */
+.ms{display:flex;justify-content:space-between;margin:12px 0;position:relative}
+.ms::before{content:'';position:absolute;top:6px;left:5%;right:5%;height:2px;background:var(--b)}
+.ms-item{text-align:center;position:relative;z-index:1;flex:1}
+.ms-dot{width:14px;height:14px;border-radius:50%;margin:0 auto 4px;border:2px solid var(--c)}
+.ms-item .mn{font-size:11px;font-weight:600}
+.ms-item .mp{font-size:9px;color:var(--t2)}
+/* Achievement */
+.achievements{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ach{padding:10px;border-radius:8px;background:var(--bg);border-left:3px solid var(--p)}
+.ach .an{font-size:10px;font-weight:700;margin-bottom:2px}
+.ach .at{font-size:12px;font-weight:600;margin-bottom:2px}
+.ach .ad{font-size:10px;color:var(--t2);line-height:1.3}
+/* Fusion */
+.fusion{display:grid;grid-template-columns:1fr;gap:8px}
+.fus{padding:10px;border-radius:8px;background:var(--bg)}
+.fus .fi{font-size:20px}
+.fus .ft{font-size:12px;font-weight:600}
+.fus .fd{font-size:11px;color:var(--t2);line-height:1.4}
+/* Summary */
+.summary{padding:10px;background:var(--pl);border-radius:8px;font-size:11px;color:var(--p);font-weight:500;line-height:1.5}
+</style>
+</head>
+<body>
+<div id="header">
+  <span class="back" id="backBtn" onclick="goHome()">‹</span>
+  <h1 id="pageTitle">李新春</h1>
+  <span class="sub" id="pageSub">面试Agent</span>
+</div>
+<div id="content"></div>
+<div id="tabBar">
+  <div class="tab-item active" onclick="switchTab('home')"><span class="ti-icon">🏠</span><span class="ti-label">首页</span></div>
+  <div class="tab-item" onclick="switchTab('personal')"><span class="ti-icon">👤</span><span class="ti-label">简历</span></div>
+  <div class="tab-item" onclick="switchTab('donglu')"><span class="ti-icon">⭐</span><span class="ti-label">东陆项目</span></div>
+  <div class="tab-item" onclick="switchTab('city')"><span class="ti-icon">🏙️</span><span class="ti-label">试点评估</span></div>
+  <div class="tab-item" onclick="switchTab('projects')"><span class="ti-icon">📁</span><span class="ti-label">其他项目</span></div>
+</div>
+<script src="data.js"></script>
+<script>
+const D = RESUME_DATA;
+function $(s){return document.querySelector(s)}
+function el(t,a,...c){const e=document.createElement(t);if(a)for(const[k,v]of Object.entries(a)){if(k==='className')e.className=v;else if(k.startsWith('on'))e.addEventListener(k.slice(2).toLowerCase(),v);else e.setAttribute(k,v)}for(const x of c){if(typeof x==='string')e.appendChild(document.createTextNode(x));else if(x)e.appendChild(x)}return e}
+
+function switchTab(tab){
+  document.querySelectorAll('.tab-item').forEach(t=>t.classList.toggle('active',t.querySelector('.ti-label').textContent==={home:'首页',personal:'简历',donglu:'东陆项目',city:'试点评估',projects:'其他项目'}[tab]))
+  const titles={home:'李新春',personal:'个人信息',donglu:'东陆AI平台',city:'试点×成熟度',projects:'其他项目'}
+  $('#pageTitle').textContent=titles[tab]||'李新春'
+  $('#backBtn').style.display=tab==='home'?'none':'inline'
+  renderH5(tab)
+}
+function goHome(){switchTab('home')}
+
+function renderH5(tab){
+  const c=$('#content')
+  const f={home:renderH5Home,personal:renderH5Personal,donglu:renderH5Donglu,city:renderH5City,projects:renderH5Projects}
+  c.innerHTML=''
+  ;(f[tab]||renderH5Home)()
+}
+
+function renderH5Home(){
+  const c=$('#content');const d=D
+  c.innerHTML=`
+    <div class="welcome">
+      <div class="avatar">李</div>
+      <h1>李新春</h1>
+      <div class="sub">售前总监 / 资深售前顾问</div>
+      <div class="contact-row">
+        <span>📞 ${d.basic.phone}</span><span>📧 ${d.basic.email}</span><span>🎓 ${d.basic.education.split('·')[0].trim()}</span>
+      </div>
+      <div class="quick-grid">
+        <div class="q-item" onclick="switchTab('personal')"><span class="qi-icon">👤</span>个人信息</div>
+        <div class="q-item" onclick="switchTab('donglu')"><span class="qi-icon">⭐</span>东陆项目</div>
+        <div class="q-item" onclick="switchTab('city')"><span class="qi-icon">🏙️</span>试点评估</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">🎯 求职意向</div>
+      <div style="font-size:14px;font-weight:600;color:var(--p)">${d.basic.target}</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🏆 核心优势</div>
+      ${d.advantages.slice(0,4).map(a=>`
+        <div class="adv-item"><span class="ai-icon">${a.icon}</span><span class="ai-text">${a.text}</span></div>
+      `).join('')}
+    </div>
+    <div class="card">
+      <div class="card-title">👥 管理经验</div>
+      ${d.management.slice(0,2).map(m=>`
+        <div style="padding:6px 0;border-bottom:1px solid var(--b)">
+          <div style="font-size:13px;font-weight:600;color:${m.color}">${m.company}</div>
+          <div style="font-size:11px;color:var(--t2)">${m.role}</div>
+        </div>
+      `).join('')}
+    </div>
+    <div style="padding:12px;text-align:center">
+      <div class="summary">🤖 点击下方Tab查看更多 →</div>
+    </div>
+  `
+}
+
+function renderH5Personal(){
+  const c=$('#content');const d=D
+  c.innerHTML=`
+    <div class="card">
+      <div class="card-title">👤 ${d.basic.name}</div>
+      <div style="font-size:13px;line-height:1.8">
+        ${[['📞 电话',d.basic.phone],['📧 邮箱',d.basic.email],['🎂 年龄',d.basic.age],['🎓 学历',d.basic.education],['🏢 公司',d.basic.company],['📅 经验',d.basic.experience],['📍 城市',d.basic.city]].map(([l,v])=>`<div><span style="color:var(--t2);width:60px;display:inline-block">${l}</span>${v}</div>`).join('')}
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">🏆 个人优势</div>
+      ${d.advantages.map(a=>`
+        <div class="adv-item"><span class="ai-icon">${a.icon}</span><span class="ai-text">${a.text}</span></div>
+      `).join('')}
+    </div>
+    <div class="card">
+      <div class="card-title">🛠️ 技术能力</div>
+      <div class="skill-cards">
+        ${d.skills.map(s=>`
+          <div class="skill-card"><h4 style="color:${s.color}">${s.name}</h4><ul>${s.items.map(i=>`<li>${i}</li>`).join('')}</ul></div>
+        `).join('')}
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">🏷️ 核心标签</div>
+      <div class="tags-wrap">${d.skillTags.map(t=>`<span class="tag-item">#${t}</span>`).join('')}</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🏢 企业经历</div>
+      <div class="tl">${d.career.map(c=>`
+        <div class="tl-item"><div class="tip">${c.period}</div><div class="tlc" style="color:${c.color}">${c.company}</div><div class="tlr">${c.role}</div><div class="tld">${c.desc}</div></div>
+      `).join('')}</div>
+    </div>
+  `
+}
+
+function renderH5Donglu(){
+  const c=$('#content');const p=D.projects[0]
+  c.innerHTML=`
+    <div class="card">
+      <div class="proj" style="border-left-color:${p.color}">
+        <h3 style="color:${p.color}">${p.name}</h3>
+        <div class="pm">${p.period} · ${p.role}</div>
+        <div style="margin-bottom:6px"><span style="padding:2px 8px;border-radius:8px;background:var(--pl);color:var(--p);font-size:10px;font-weight:600">${p.highlight}</span></div>
+        <div class="pt">${p.tags.map(t=>`<span>${t}</span>`).join('')}</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">🏗️ 四层架构</div>
+      ${p.architecture.map(a=>`<div class="arch"><span class="al" style="background:${a.color}">${a.layer}</span><span class="ad">${a.desc}</span></div>`).join('')}
+    </div>
+    <div class="card">
+      <div class="card-title">📅 里程碑</div>
+      <div class="ms">${p.milestones.map(m=>`<div class="ms-item"><div class="ms-dot" style="background:${m.color}"></div><div class="mn">${m.name}</div><div class="mp">${m.period}</div></div>`).join('')}</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🏆 核心成果</div>
+      <div class="achievements">${p.achievements.map((a,i)=>{const cs=['#4472C4','#3D9F90','#E89C3C','#5BA0D0','#957FC8','#4472C4'];return `<div class="ach" style="border-left-color:${cs[i]}"><div class="an" style="color:${cs[i]}">0${i+1}</div><div class="at">${a.split('，')[0]}</div><div class="ad">${a}</div></div>`}).join('')}</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🖥️ 平台UI</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">${p.uiFeatures.map(ui=>`<div style="padding:8px;border-radius:6px;background:var(--bg);text-align:center"><div style="font-size:20px">${ui.title.split(' ')[0]}</div><div style="font-size:11px;font-weight:600;color:${ui.color}">${ui.title.replace(/^[^\s]+\s/,'')}</div><div style="font-size:10px;color:var(--t2)">${ui.desc}</div></div>`).join('')}</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🎥 项目演示</div>
+      <div style="padding:12px;background:var(--bg);border-radius:8px;text-align:center">
+        <div style="font-size:28px;margin-bottom:6px">📹</div>
+        <div style="font-size:12px;font-weight:600;margin-bottom:4px">腾讯会议录制：东陆项目方案讲解</div>
+        <div style="font-size:11px;color:var(--t2);margin-bottom:10px">录制人：李文彬</div>
+        <a href="https://meeting.tencent.com/crm/N81jXXzo00" target="_blank" style="display:inline-block;padding:8px 24px;background:var(--p);color:#fff;border-radius:8px;text-decoration:none;font-size:13px;font-weight:500">▶ 观看录制视频</a>
+      </div>
+    </div>
+  `
+}
+
+function renderH5City(){
+  const c=$('#content');const p=D.projects[1]
+  c.innerHTML=`
+    <div class="card">
+      <div class="proj" style="border-left-color:${p.color}">
+        <h3 style="color:${p.color}">${p.name}</h3>
+        <div class="pm">${p.period} · ${p.role}</div>
+        <div style="margin-bottom:6px"><span style="padding:2px 8px;border-radius:8px;background:var(--pl);color:var(--p);font-size:10px;font-weight:600">${p.highlight}</span></div>
+        <div class="pt">${p.tags.map(t=>`<span>${t}</span>`).join('')}</div>
+      </div>
+    </div>
+    ${p.sections.map(s=>`
+      <div class="card"><div class="card-title" style="font-size:14px;color:${s.color}">${s.title}</div>${s.items.map(item=>`<div style="padding:3px 0;font-size:12px;display:flex;gap:6px"><span style="color:${s.color}">▸</span>${item}</div>`).join('')}</div>
+    `).join('')}
+    <div class="card">
+      <div class="card-title" style="font-size:14px;color:${p.color}">🔄 融合价值</div>
+      <div class="fusion">${p.fusion.map(f=>`<div class="fus"><div class="fi">${f.icon}</div><div class="ft" style="color:${p.color}">${f.title}</div><div class="fd">${f.desc}</div></div>`).join('')}</div>
+      <div class="summary" style="margin-top:10px">💡 通过300+家企业评估，深度理解中小制造企业4大共性痛点——系统孤岛/协同低效/数据失真/经验依赖，直接赋能东陆AI平台方案设计。</div>
+    </div>
+  `
+}
+
+function renderH5Projects(){
+  const c=$('#content');const others=D.projects.slice(2)
+  c.innerHTML=`
+    ${others.map(p=>`
+      <div class="card"><div class="proj" style="border-left-color:${p.color}"><h3 style="color:${p.color}">${p.name}</h3><div class="pm">${p.period} · ${p.role}</div><div class="pd">${p.desc}</div><div class="pt">${p.tags.map(t=>`<span>${t}</span>`).join('')}</div></div></div>
+    `).join('')}
+    <div class="card">
+      <div class="card-title">🎓 教育经历</div>
+      <div style="font-size:13px">${D.education}</div>
+    </div>
+  `
+}
+
+// Init
+switchTab('home')
+</script>
+</body>
+</html>

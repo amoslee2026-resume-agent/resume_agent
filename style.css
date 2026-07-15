@@ -1,0 +1,163 @@
+/* ===== 李新春 个人面试Agent 样式 ===== */
+:root {
+  --primary: #3D9F90; --primary-dark: #2E7D6F; --primary-light: #E8F5F3;
+  --bg: #F0F2F5; --card: #FFFFFF; --text: #1D1D1F; --text2: #6E6E73;
+  --border: #E8E8E8; --shadow: 0 2px 8px rgba(0,0,0,0.06); --radius: 12px;
+  --sidebar-w: 260px; --topbar-h: 56px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Microsoft YaHei', -apple-system, sans-serif; background: var(--bg); color: var(--text); font-size: 14px; }
+#app { display: flex; min-height: 100vh; }
+
+/* ===== Sidebar ===== */
+#sidebar { width: var(--sidebar-w); background: var(--card); border-right: 1px solid var(--border); display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0; z-index: 100; }
+.sidebar-header { padding: 24px 20px; border-bottom: 1px solid var(--border); cursor: pointer; display: flex; align-items: center; gap: 12px; }
+.avatar { width: 44px; height: 44px; border-radius: 12px; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; flex-shrink: 0; }
+.sidebar-header .info { display: flex; flex-direction: column; }
+.sidebar-header .info strong { font-size: 15px; color: var(--text); }
+.sidebar-header .info small { font-size: 11px; color: var(--text2); margin-top: 2px; }
+
+#menu { flex: 1; padding: 12px 0; overflow-y: auto; }
+.menu-item { display: flex; align-items: center; gap: 10px; padding: 10px 20px; color: var(--text2); text-decoration: none; font-size: 14px; cursor: pointer; transition: all 0.2s; border-left: 3px solid transparent; }
+.menu-item:hover { background: var(--primary-light); color: var(--primary); }
+.menu-item.active { background: var(--primary-light); color: var(--primary); border-left-color: var(--primary); font-weight: 600; }
+.menu-item .icon { font-size: 16px; width: 24px; text-align: center; }
+.sidebar-footer { padding: 16px 20px; border-top: 1px solid var(--border); color: var(--text2); font-size: 11px; line-height: 1.6; }
+
+/* ===== Main ===== */
+#main { flex: 1; margin-left: var(--sidebar-w); display: flex; flex-direction: column; }
+#topbar { height: var(--topbar-h); background: var(--card); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 24px; gap: 12px; position: sticky; top: 0; z-index: 50; }
+#mobileMenuBtn { display: none; background: none; border: none; font-size: 22px; cursor: pointer; padding: 4px; }
+#breadcrumb { font-size: 13px; color: var(--text2); flex: 1; }
+.header-actions { display: flex; gap: 8px; }
+.mobile-link { padding: 4px 12px; border-radius: 6px; background: var(--primary); color: #fff; text-decoration: none; font-size: 12px; }
+
+#content { flex: 1; padding: 24px; overflow-y: auto; }
+
+/* ===== Content Cards ===== */
+.card { background: var(--card); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); margin-bottom: 16px; }
+.card-title { font-size: 18px; font-weight: 600; margin-bottom: 16px; color: var(--text); display: flex; align-items: center; gap: 8px; }
+.card-subtitle { font-size: 13px; color: var(--text2); margin-bottom: 16px; }
+.section-header { margin-bottom: 24px; }
+.section-header h1 { font-size: 24px; font-weight: 700; color: var(--text); }
+.section-header p { font-size: 14px; color: var(--text2); margin-top: 4px; }
+
+/* Grid */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; }
+.grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+
+/* Tags */
+.tag { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 500; margin-right: 6px; margin-bottom: 6px; }
+.tag-green { background: #E8F5F3; color: var(--primary); }
+.tag-blue { background: #E8EFF9; color: #4472C4; }
+.tag-orange { background: #FDF4E8; color: #E89C3C; }
+.tag-purple { background: #F3EFF9; color: #957FC8; }
+
+/* ===== Welcome ===== */
+.welcome-card { text-align: center; padding: 60px 40px; }
+.welcome-card .big-avatar { width: 80px; height: 80px; border-radius: 20px; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 700; margin: 0 auto 20px; }
+.welcome-card h1 { font-size: 28px; margin-bottom: 8px; }
+.welcome-card .subtitle { font-size: 15px; color: var(--text2); margin-bottom: 24px; }
+.welcome-card .quick-links { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+.quick-link { padding: 8px 20px; border-radius: 20px; background: var(--primary-light); color: var(--primary); text-decoration: none; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+.quick-link:hover { background: var(--primary); color: #fff; }
+.quick-links-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+
+/* ===== Advantage Items ===== */
+.adv-item { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.adv-item:last-child { border-bottom: none; }
+.adv-icon { font-size: 20px; width: 32px; flex-shrink: 0; }
+.adv-text { font-size: 13px; line-height: 1.6; color: var(--text); }
+
+/* ===== Skill Cards ===== */
+.skill-card { border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); background: var(--card); }
+.skill-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 12px; }
+.skill-card ul { list-style: none; }
+.skill-card li { padding: 4px 0; font-size: 12px; color: var(--text2); display: flex; align-items: center; gap: 6px; }
+.skill-card li::before { content: "▸"; color: var(--primary); font-weight: 700; }
+
+/* ===== Timeline ===== */
+.timeline { position: relative; padding-left: 20px; }
+.timeline::before { content: ''; position: absolute; left: 6px; top: 8px; bottom: 8px; width: 2px; background: var(--border); }
+.timeline-item { position: relative; padding: 0 0 20px 20px; }
+.timeline-item::before { content: ''; position: absolute; left: -17px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--primary); border: 2px solid var(--card); }
+.timeline-item .period { font-size: 11px; color: var(--text2); }
+.timeline-item .company { font-size: 15px; font-weight: 600; margin: 2px 0; }
+.timeline-item .role { font-size: 12px; color: var(--text2); }
+.timeline-item .desc { font-size: 12px; color: var(--text); margin-top: 4px; line-height: 1.5; }
+
+/* ===== Project Cards ===== */
+.project-card { border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); background: var(--card); margin-bottom: 16px; border-left: 4px solid var(--primary); }
+.project-card .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+.project-card .header h2 { font-size: 17px; font-weight: 600; }
+.project-card .meta { font-size: 12px; color: var(--text2); }
+.project-card .highlight { display: inline-block; padding: 2px 10px; border-radius: 12px; background: var(--primary-light); color: var(--primary); font-size: 11px; font-weight: 600; margin-left: 8px; }
+
+/* ===== Architecture ===== */
+.arch-item { display: flex; align-items: center; margin-bottom: 6px; }
+.arch-label { padding: 4px 10px; border-radius: 4px; color: #fff; font-size: 11px; font-weight: 600; width: 120px; text-align: center; flex-shrink: 0; }
+.arch-desc { padding: 4px 12px; font-size: 12px; color: var(--text); background: var(--bg); border-radius: 4px; flex: 1; margin-left: 6px; }
+
+/* ===== Milestone ===== */
+.milestone-row { display: flex; justify-content: space-between; margin: 20px 0; position: relative; }
+.milestone-row::before { content: ''; position: absolute; top: 8px; left: 5%; right: 5%; height: 2px; background: var(--border); }
+.milestone-item { text-align: center; position: relative; z-index: 1; flex: 1; }
+.milestone-dot { width: 18px; height: 18px; border-radius: 50%; margin: 0 auto 6px; border: 2px solid var(--card); }
+.milestone-item .name { font-size: 12px; font-weight: 600; }
+.milestone-item .period { font-size: 10px; color: var(--text2); }
+
+/* ===== Fusion ===== */
+.fusion-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 16px; }
+.fusion-item { padding: 16px; border-radius: 8px; background: var(--bg); }
+.fusion-item .fi-icon { font-size: 24px; margin-bottom: 4px; }
+.fusion-item .fi-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+.fusion-item .fi-desc { font-size: 11px; color: var(--text2); line-height: 1.5; }
+
+/* ===== Achievement Grid ===== */
+.achievement-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.achievement-item { padding: 14px; border-radius: 8px; border-left: 3px solid; background: var(--bg); }
+.achievement-item .num { font-size: 11px; font-weight: 700; margin-bottom: 4px; }
+.achievement-item .title { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+.achievement-item .desc { font-size: 11px; color: var(--text2); line-height: 1.4; }
+
+/* ===== UI Feature Grid ===== */
+.ui-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 16px; }
+.ui-card { padding: 16px; border-radius: 8px; background: var(--card); border: 1px solid var(--border); text-align: center; }
+.ui-card .ui-icon { font-size: 28px; margin-bottom: 8px; }
+.ui-card .ui-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+.ui-card .ui-desc { font-size: 11px; color: var(--text2); }
+
+/* ===== Contact ===== */
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.contact-item { padding: 12px 16px; border-radius: 8px; background: var(--bg); display: flex; align-items: center; gap: 10px; }
+.contact-item .ci-icon { font-size: 20px; }
+.contact-item .ci-label { font-size: 11px; color: var(--text2); }
+.contact-item .ci-value { font-size: 13px; font-weight: 500; }
+
+/* ===== Loading ===== */
+.loading { text-align: center; padding: 80px 0; color: var(--text2); font-size: 14px; }
+.loading::after { content: ''; display: block; width: 32px; height: 32px; border: 3px solid var(--border); border-top-color: var(--primary); border-radius: 50%; margin: 16px auto; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ===== Section Switcher Animation ===== */
+.fade-in { animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ===== Skill Tags ===== */
+.skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.skill-tag { padding: 6px 14px; border-radius: 20px; background: var(--primary-light); color: var(--primary); font-size: 12px; font-weight: 500; }
+
+/* ===== Responsive ===== */
+@media (max-width: 1024px) {
+  .grid-4, .grid-5, .ui-grid { grid-template-columns: repeat(2, 1fr); }
+  .fusion-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  #sidebar { transform: translateX(-100%); transition: transform 0.3s; }
+  #sidebar.open { transform: translateX(0); }
+  #main { margin-left: 0; }
+  #mobileMenuBtn { display: block; }
+  .grid-2, .grid-3, .achievement-grid { grid-template-columns: 1fr; }
+}
