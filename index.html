@@ -1,11 +1,61 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>李新春 - 个人面试Agent</title>
 <link rel="stylesheet" href="style.css">
+<style>
+/* ===== Responsive: PC Sidebar vs H5 Bottom Tab ===== */
+.pc-only { display: flex; }
+.h5-only { display: none; }
+
+@media (max-width: 768px) {
+  .pc-only { display: none !important; }
+  .h5-only { display: block !important; }
+  #sidebar { transform: translateX(-100%); }
+  #sidebar.open { transform: translateX(0); }
+  #main { margin-left: 0 !important; }
+  #mobileMenuBtn { display: block !important; }
+  .grid-2, .grid-3, .achievement-grid { grid-template-columns: 1fr !important; }
+  .grid-4, .grid-5, .ui-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .fusion-grid { grid-template-columns: 1fr !important; }
+}
+
+/* H5 bottom tab bar - always at bottom on mobile */
+#h5TabBar {
+  display: none;
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: #fff; border-top: 1px solid var(--border);
+  z-index: 200; padding-bottom: env(safe-area-inset-bottom);
+}
+#h5TabBar .tab-row { display: flex; }
+.h5-tab {
+  flex: 1; text-align: center; padding: 6px 0 4px;
+  font-size: 10px; color: var(--text2); cursor: pointer;
+}
+.h5-tab.active { color: var(--primary); }
+.h5-tab .ti-icon { font-size: 20px; display: block; margin-bottom: 2px; }
+
+/* H5 page container */
+#h5Content { display: none; padding: 12px 12px 60px; }
+#h5Content.active { display: block; }
+
+@media (max-width: 768px) {
+  #h5TabBar { display: block; }
+  #h5Content { display: block; }
+}
+
+/* ===== H5 Component Styles ===== */
+.h5-card { background: #fff; border-radius: 12px; padding: 14px; margin-bottom: 10px; box-shadow: 0 1px 4px rgba(0,0,0,.04); }
+.h5-card-title { font-size: 14px; font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.h5-adv { display: flex; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--border); }
+.h5-adv:last-child { border: none; }
+.h5-adv .ai { font-size: 14px; width: 20px; flex-shrink: 0; }
+.h5-adv .at { font-size: 11px; line-height: 1.4; }
+</style>
 </head>
 <body>
-<div id="app">
+<!-- ===== PC VERSION ===== -->
+<div id="app" class="pc-only">
   <aside id="sidebar">
     <div class="sidebar-header" onclick="navigateTo('welcome')">
       <div class="avatar">李</div>
@@ -16,43 +66,144 @@
       <a class="menu-item" data-section="skills" onclick="navigateTo('skills')"><span class="icon">🛠️</span> 技术能力</a>
       <a class="menu-item" data-section="management" onclick="navigateTo('management')"><span class="icon">👥</span> 管理经验</a>
       <a class="menu-item" data-section="career" onclick="navigateTo('career')"><span class="icon">🏢</span> 企业经历</a>
-      <a class="menu-item" data-section="project-donglu" onclick="toggleDongluMenu()"><span class="icon">⭐</span> <span>东陆AI平台</span><span id="dongluArrow" style="margin-left:auto;font-size:10px;transition:transform 0.3s">▼</span></a>
-      <div id="dongluSubmenu" style="overflow:hidden;max-height:0;transition:max-height 0.4s ease">
-      <a class="menu-item" data-section="donglu-employees" onclick="navigateTo('donglu-employees')" style="padding-left:40px;font-size:13px"><span class="icon">👥</span> 13数字员工·26智能体</a>
-      <a class="menu-item" data-section="donglu-agent-finance" onclick="navigateTo('donglu-agent-finance')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">💰</span> 财务助理(3)</a>
-      <a class="menu-item" data-section="donglu-agent-quote" onclick="navigateTo('donglu-agent-quote')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">📊</span> 报价员(1)</a>
-      <a class="menu-item" data-section="donglu-agent-sales" onclick="navigateTo('donglu-agent-sales')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">🤝</span> 销售助理(3)</a>
-      <a class="menu-item" data-section="donglu-agent-prod" onclick="navigateTo('donglu-agent-prod')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">🏭</span> 生产助理(2)</a>
-      <a class="menu-item" data-section="donglu-agent-process" onclick="navigateTo('donglu-agent-process')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">🔧</span> 工艺助理(1)</a>
-      <a class="menu-item" data-section="donglu-agent-quality" onclick="navigateTo('donglu-agent-quality')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">✅</span> 质检员(1)</a>
-      <a class="menu-item" data-section="donglu-agent-planner" onclick="navigateTo('donglu-agent-planner')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">📋</span> 计划员(4)</a>
-      <a class="menu-item" data-section="donglu-agent-warehouse" onclick="navigateTo('donglu-agent-warehouse')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">📦</span> 仓管员(1)</a>
-      <a class="menu-item" data-section="donglu-agent-rd" onclick="navigateTo('donglu-agent-rd')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">🔬</span> 研发助理(1)</a>
-      <a class="menu-item" data-section="donglu-agent-req" onclick="navigateTo('donglu-agent-req')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">📝</span> 需求分析师(1)</a>
-      <a class="menu-item" data-section="donglu-agent-procure" onclick="navigateTo('donglu-agent-procure')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">🛒</span> 采购员(3)</a>
-      <a class="menu-item" data-section="donglu-agent-pm" onclick="navigateTo('donglu-agent-pm')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">📈</span> 项目经理(3)</a>
-      <a class="menu-item" data-section="donglu-agent-exec" onclick="navigateTo('donglu-agent-exec')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">👔</span> 总裁办秘书(2)</a>
+      <a class="menu-item" data-section="project-donglu" onclick="toggleDongluMenu()"><span class="icon">⭐</span> <span>东陆AI平台</span><span id="dongluArrow" style="margin-left:auto;font-size:10px;transition:transform .3s">▼</span></a>
+      <div id="dongluSubmenu" style="overflow:hidden;max-height:0;transition:max-height .4s">
+        <a class="menu-item" data-section="donglu-indicators" onclick="navigateTo('donglu-indicators')" style="padding-left:40px;font-size:13px"><span class="icon">📊</span> 30个指标集</a>
+        <a class="menu-item" data-section="donglu-employees" onclick="navigateTo('donglu-employees')" style="padding-left:40px;font-size:13px"><span class="icon">👥</span> 13数字员工·26智能体</a>
+        <a class="menu-item" data-section="donglu-agent-finance" onclick="navigateTo('donglu-agent-finance')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">💰</span> 财务助理(3)</a>
+        <a class="menu-item" data-section="donglu-agent-quote" onclick="navigateTo('donglu-agent-quote')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">📊</span> 报价员(1)</a>
+        <a class="menu-item" data-section="donglu-agent-sales" onclick="navigateTo('donglu-agent-sales')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">🤝</span> 销售助理(3)</a>
+        <a class="menu-item" data-section="donglu-agent-prod" onclick="navigateTo('donglu-agent-prod')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">🏭</span> 生产助理(2)</a>
+        <a class="menu-item" data-section="donglu-agent-process" onclick="navigateTo('donglu-agent-process')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">🔧</span> 工艺助理(1)</a>
+        <a class="menu-item" data-section="donglu-agent-quality" onclick="navigateTo('donglu-agent-quality')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">✅</span> 质检员(1)</a>
+        <a class="menu-item" data-section="donglu-agent-planner" onclick="navigateTo('donglu-agent-planner')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">📋</span> 计划员(4)</a>
+        <a class="menu-item" data-section="donglu-agent-warehouse" onclick="navigateTo('donglu-agent-warehouse')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">📦</span> 仓管员(1)</a>
+        <a class="menu-item" data-section="donglu-agent-rd" onclick="navigateTo('donglu-agent-rd')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">🔬</span> 研发助理(1)</a>
+        <a class="menu-item" data-section="donglu-agent-req" onclick="navigateTo('donglu-agent-req')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">📝</span> 需求分析师(1)</a>
+        <a class="menu-item" data-section="donglu-agent-procure" onclick="navigateTo('donglu-agent-procure')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">🛒</span> 采购员(3)</a>
+        <a class="menu-item" data-section="donglu-agent-pm" onclick="navigateTo('donglu-agent-pm')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">📈</span> 项目经理(3)</a>
+        <a class="menu-item" data-section="donglu-agent-exec" onclick="navigateTo('donglu-agent-exec')" style="padding-left:50px;font-size:12px;color:#666"><span class="icon">👔</span> 总裁办秘书(2)</a>
       </div>
       <a class="menu-item" data-section="project-gansu" onclick="navigateTo('project-gansu')"><span class="icon">⛏️</span> 甘肃稀土</a>
       <a class="menu-item" data-section="project-city" onclick="navigateTo('project-city')"><span class="icon">🏙️</span> 城市试点×成熟度</a>
       <a class="menu-item" data-section="projects" onclick="navigateTo('projects')"><span class="icon">📁</span> 其他项目</a>
     </nav>
-    <div class="sidebar-footer">
-      <small>📧 1020577381@qq.com<br>📞 13243872871</small>
-    </div>
+    <div class="sidebar-footer"><small>📧 1020577381@qq.com<br>📞 13243872871</small></div>
   </aside>
   <main id="main">
     <header id="topbar">
       <button id="mobileMenuBtn" onclick="toggleMobileMenu()">☰</button>
       <span id="breadcrumb">🏠 首页</span>
-      <div class="header-actions">
-        <a href="h5.html" class="mobile-link" target="_blank">📱 H5版</a>
-      </div>
     </header>
     <div id="content"><div class="loading">加载中...</div></div>
   </main>
 </div>
+
+<!-- ===== H5 VERSION ===== -->
+<div id="h5Content" class="h5-only"></div>
+<div id="h5TabBar" class="h5-only">
+  <div class="tab-row">
+    <div class="h5-tab active" onclick="h5Switch('home')"><span class="ti-icon">🏠</span><br>首页</div>
+    <div class="h5-tab" onclick="h5Switch('personal')"><span class="ti-icon">👤</span><br>简历</div>
+    <div class="h5-tab" onclick="h5Switch('donglu')"><span class="ti-icon">⭐</span><br>东陆</div>
+    <div class="h5-tab" onclick="h5Switch('city')"><span class="ti-icon">🏙️</span><br>试点</div>
+    <div class="h5-tab" onclick="h5Switch('projects')"><span class="ti-icon">📁</span><br>项目</div>
+  </div>
+</div>
+
 <script src="data.js"></script>
+<script>
+// ===== H5 Rendering (embedded, no h5.html needed) =====
+const D = RESUME_DATA;
+
+function h5Switch(tab) {
+  document.querySelectorAll('.h5-tab').forEach(t => t.classList.remove('active'));
+  const labels = {home:'首页',personal:'简历',donglu:'东陆',city:'试点',projects:'项目'};
+  document.querySelectorAll('.h5-tab').forEach(t => {
+    if (t.textContent.trim().includes(labels[tab])) t.classList.add('active');
+  });
+  renderH5(tab);
+}
+
+function renderH5(tab) {
+  const c = document.getElementById('h5Content');
+  const f = { home: h5Home, personal: h5Personal, donglu: h5Donglu, city: h5City, projects: h5Other };
+  c.innerHTML = (f[tab] || h5Home)();
+}
+
+function h5Home() {
+  const d = D;
+  return `
+    <div style="text-align:center;padding:20px 0 12px">
+      <div style="width:56px;height:56px;border-radius:14px;background:var(--p);color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;margin:0 auto 8px">李</div>
+      <div style="font-size:18px;font-weight:600">李新春</div>
+      <div style="font-size:12px;color:var(--t2)">售前总监 / 资深售前顾问</div>
+      <div style="display:flex;gap:8px;justify-content:center;font-size:11px;color:var(--t2);margin:8px 0">📞 ${d.basic.phone} · 📧 ${d.basic.email}</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px">
+      <div class="h5-card" style="text-align:center;cursor:pointer" onclick="h5Switch('personal')"><div style="font-size:20px">👤</div><div style="font-size:11px;font-weight:500;margin-top:2px">个人信息</div></div>
+      <div class="h5-card" style="text-align:center;cursor:pointer" onclick="h5Switch('donglu')"><div style="font-size:20px">⭐</div><div style="font-size:11px;font-weight:500;margin-top:2px">东陆项目</div></div>
+      <div class="h5-card" style="text-align:center;cursor:pointer" onclick="h5Switch('city')"><div style="font-size:20px">🏙️</div><div style="font-size:11px;font-weight:500;margin-top:2px">试点评估</div></div>
+    </div>
+    <div class="h5-card"><div class="h5-card-title">🎯 求职意向</div><div style="font-size:13px;font-weight:600;color:var(--p)">${d.basic.target}</div></div>
+    <div class="h5-card"><div class="h5-card-title">🏆 核心优势</div>${d.advantages.slice(0,4).map(a=>'<div class="h5-adv"><span class="ai">'+a.icon+'</span><span class="at">'+a.text+'</span></div>').join('')}</div>
+    <div class="h5-card"><div class="h5-card-title">👥 管理经验</div>${d.management.slice(0,2).map(m=>'<div style="padding:4px 0;border-bottom:1px solid var(--b)"><div style="font-size:12px;font-weight:600;color:'+m.color+'">'+m.company+'</div><div style="font-size:10px;color:var(--t2)">'+m.role+'</div></div>').join('')}</div>
+  `;
+}
+
+function h5Personal() {
+  const d = D;
+  return `
+    <div class="h5-card"><div class="h5-card-title">👤 ${d.basic.name}</div>
+      <div style="font-size:12px;line-height:1.8">${[['📞',d.basic.phone],['📧',d.basic.email],['🎂',d.basic.age],['🎓',d.basic.education],['📅',d.basic.experience],['📍',d.basic.city]].map(([i,v])=>'<div style="display:flex;gap:4px"><span style="color:var(--t2);width:50px">'+i+'</span>'+v+'</div>').join('')}</div>
+    </div>
+    <div class="h5-card"><div class="h5-card-title">🏆 个人优势</div>${d.advantages.map(a=>'<div class="h5-adv"><span class="ai">'+a.icon+'</span><span class="at">'+a.text+'</span></div>').join('')}</div>
+    <div class="h5-card"><div class="h5-card-title">🛠️ 技能</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">${d.skills.map(s=>'<div style="padding:8px;border-radius:6px;border:1px solid var(--b)"><div style="font-size:12px;font-weight:600;color:'+s.color+'">'+s.name+'</div><ul style="font-size:10px;color:var(--t2);padding-left:12px;margin:4px 0 0">'+s.items.map(i=>'<li>'+i+'</li>').join('')+'</ul></div>').join('')}</div>
+    </div>
+    <div class="h5-card"><div class="h5-card-title">🏢 企业经历</div>
+      <div style="padding-left:12px;position:relative">${d.career.map((c,i)=>'<div style="position:relative;padding:0 0 10px 10px;border-left:2px solid #e0e0e0;margin-left:3px"><div style="position:absolute;left:-6px;top:4px;width:10px;height:10px;border-radius:50%;background:'+c.color+';border:2px solid #fff"></div><div style="font-size:10px;color:var(--t2)">'+c.period+'</div><div style="font-size:12px;font-weight:600;color:'+c.color+'">'+c.company+'</div><div style="font-size:10px;color:var(--t2)">'+c.role+'</div></div>').join('')}</div>
+    </div>
+  `;
+}
+
+function h5Donglu() {
+  const p = D.projects[0];
+  const di = DONGULU_INDICATORS;
+  return `
+    <div class="h5-card"><div class="proj" style="border-left:3px solid ${p.color};padding-left:10px"><h3 style="font-size:14px;font-weight:600;color:${p.color};margin:0 0 2px">${p.name}</h3><div style="font-size:11px;color:var(--t2);margin-bottom:4px">${p.period}</div><div style="font-size:12px;line-height:1.5">${p.achievements.slice(0,3).map(a=>'▸ '+a.split('，')[0]).join('<br>')}</div></div></div>
+    <div class="h5-card"><div class="h5-card-title">🏗️ 四层架构</div>${p.architecture.map(a=>'<div style="display:flex;align-items:center;margin-bottom:3px"><span style="padding:2px 6px;border-radius:3px;background:'+a.color+';color:#fff;font-size:9px;font-weight:600;width:64px;text-align:center;flex-shrink:0">'+a.layer+'</span><span style="font-size:10px;padding:2px 6px;flex:1">'+a.desc+'</span></div>').join('')}</div>
+    <div class="h5-card">
+      <div class="h5-card-title">📊 30个核心经营指标集</div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px">${di.domains.map(d => '<span style="padding:2px 8px;border-radius:6px;background:'+d.color+'15;color:'+d.color+';font-size:10px;font-weight:500">'+d.icon+' '+d.name+' ('+d.count+')</span>').join('')}</div>
+      <div style="font-size:11px;color:var(--t2);margin-top:4px">覆盖9大业务域 · 30个核心经营指标 · 自动核算</div>
+    </div>
+    <div class="h5-card"><div class="h5-card-title">🏆 核心成果</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">${p.achievements.map((a,i)=>{const cs=['#4472C4','#3D9F90','#E89C3C','#5BA0D0','#957FC8','#4472C4'];return '<div style="padding:8px;border-radius:6px;background:#f5f5f5;border-left:3px solid '+cs[i]+'"><div style="font-size:9px;font-weight:700;color:'+cs[i]+'">0'+(i+1)+'</div><div style="font-size:11px;font-weight:600">'+a.split('，')[0]+'</div><div style="font-size:9px;color:var(--t2)">'+a+'</div></div>'}).join('')}</div></div>
+  `;
+}
+
+function h5City() {
+  const p = D.projects[1];
+  return `
+    <div class="h5-card"><div style="border-left:3px solid ${p.color};padding-left:10px"><h3 style="font-size:14px;font-weight:600;color:${p.color};margin:0 0 2px">${p.name}</h3><div style="font-size:11px;color:var(--t2)">${p.period} · ${p.role}</div></div></div>
+    ${p.sections.map(s=>'<div class="h5-card"><div class="h5-card-title" style="font-size:13px;color:'+s.color+'">'+s.title+'</div>'+s.items.map(item=>'<div style="padding:2px 0;font-size:11px;display:flex;gap:4px"><span style="color:'+s.color+'">▸</span>'+item+'</div>').join('')+'</div>').join('')}
+    <div class="h5-card"><div class="h5-card-title" style="font-size:13px;color:${p.color}">🔄 融合价值</div><div style="font-size:11px">${p.fusion.map(f=>'<div style="padding:4px 0"><span style="font-weight:600">'+f.icon+' '+f.title+'</span><br><span style="color:var(--t2)">'+f.desc+'</span></div>').join('')}</div></div>
+  `;
+}
+
+function h5Other() {
+  const others = D.projects.slice(2);
+  return others.map(p=>'<div class="h5-card"><div style="border-left:3px solid '+p.color+';padding-left:10px"><div style="font-size:13px;font-weight:600;color:'+p.color+'">'+p.name+'</div><div style="font-size:11px;color:var(--t2)">'+p.period+' · '+p.role+'</div><div style="font-size:11px;margin-top:4px;line-height:1.4">'+p.desc+'</div></div></div>').join('') +
+    '<div class="h5-card"><div class="h5-card-title">🎓 教育经历</div><div style="font-size:12px">'+D.education+'</div></div>';
+}
+
+// Init H5
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.innerWidth <= 768) {
+    h5Switch('home');
+  }
+});
+</script>
 <script src="script.js"></script>
 </body>
 </html>

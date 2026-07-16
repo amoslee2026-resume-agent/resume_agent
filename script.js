@@ -12,7 +12,7 @@ function el(tag, attrs, ...children) {
 function navigateTo(section) {
   currentSection = section;
   document.querySelectorAll('.menu-item').forEach(m => m.classList.toggle('active', m.dataset.section === section));
-  const names = { welcome:'🏠 首页', personal:'👤 个人信息', skills:'🛠️ 技术能力', management:'👥 管理经验', career:'🏢 企业经历', 'project-donglu':'⭐ 东陆AI平台', 'donglu-employees':'👥 13数字员工·26智能体', 'donglu-agent-finance':'💰 财务助理', 'donglu-agent-quote':'📊 报价员', 'donglu-agent-sales':'🤝 销售助理', 'donglu-agent-prod':'🏭 生产助理', 'donglu-agent-process':'🔧 工艺助理', 'donglu-agent-quality':'✅ 质检员', 'donglu-agent-planner':'📋 计划员', 'donglu-agent-warehouse':'📦 仓管员', 'donglu-agent-rd':'🔬 研发助理', 'donglu-agent-req':'📝 需求分析师', 'donglu-agent-procure':'🛒 采购员', 'donglu-agent-pm':'📈 项目经理', 'donglu-agent-exec':'👔 总裁办秘书', 'project-gansu':'⛏️ 甘肃稀土', 'project-city':'🏙️ 城市试点×成熟度', projects:'📁 其他项目' };
+  const names = { welcome:'🏠 首页', personal:'👤 个人信息', skills:'🛠️ 技术能力', management:'👥 管理经验', career:'🏢 企业经历', 'project-donglu':'⭐ 东陆AI平台', 'donglu-employees':'👥 13数字员工·26智能体', 'donglu-indicators':'📊 30个指标集', 'donglu-agent-finance':'💰 财务助理', 'donglu-agent-quote':'📊 报价员', 'donglu-agent-sales':'🤝 销售助理', 'donglu-agent-prod':'🏭 生产助理', 'donglu-agent-process':'🔧 工艺助理', 'donglu-agent-quality':'✅ 质检员', 'donglu-agent-planner':'📋 计划员', 'donglu-agent-warehouse':'📦 仓管员', 'donglu-agent-rd':'🔬 研发助理', 'donglu-agent-req':'📝 需求分析师', 'donglu-agent-procure':'🛒 采购员', 'donglu-agent-pm':'📈 项目经理', 'donglu-agent-exec':'👔 总裁办秘书', 'project-gansu':'⛏️ 甘肃稀土', 'project-city':'🏙️ 城市试点×成熟度', projects:'📁 其他项目' };
   $('breadcrumb').textContent = names[section] || section;
   // Close mobile menu
   $('sidebar').classList.remove('open');
@@ -52,7 +52,7 @@ function openDongluSubmenu() {
 
 function renderContent(section) {
   const c = $('content'); c.className = 'fade-in';
-  const render = { welcome: renderWelcome, personal: renderPersonal, skills: renderSkills, management: renderManagement, career: renderCareer, 'project-donglu': renderProjectDonglu, 'donglu-employees': renderDongluEmployees, 'donglu-agent-finance': ()=>renderDongluAgent('finance'), 'donglu-agent-quote': ()=>renderDongluAgent('quote'), 'donglu-agent-sales': ()=>renderDongluAgent('sales'), 'donglu-agent-prod': ()=>renderDongluAgent('prod'), 'donglu-agent-process': ()=>renderDongluAgent('process'), 'donglu-agent-quality': ()=>renderDongluAgent('quality'), 'donglu-agent-planner': ()=>renderDongluAgent('planner'), 'donglu-agent-warehouse': ()=>renderDongluAgent('warehouse'), 'donglu-agent-rd': ()=>renderDongluAgent('rd'), 'donglu-agent-req': ()=>renderDongluAgent('req'), 'donglu-agent-procure': ()=>renderDongluAgent('procure'), 'donglu-agent-pm': ()=>renderDongluAgent('pm'), 'donglu-agent-exec': ()=>renderDongluAgent('exec'), 'project-gansu': renderProjectGansu, 'project-city': renderProjectCity, projects: renderProjects };
+  const render = { welcome: renderWelcome, personal: renderPersonal, skills: renderSkills, management: renderManagement, career: renderCareer, 'project-donglu': renderProjectDonglu, 'donglu-employees': renderDongluEmployees, 'donglu-indicators': renderDongluIndicators, 'donglu-agent-finance': ()=>renderDongluAgent('finance'), 'donglu-agent-quote': ()=>renderDongluAgent('quote'), 'donglu-agent-sales': ()=>renderDongluAgent('sales'), 'donglu-agent-prod': ()=>renderDongluAgent('prod'), 'donglu-agent-process': ()=>renderDongluAgent('process'), 'donglu-agent-quality': ()=>renderDongluAgent('quality'), 'donglu-agent-planner': ()=>renderDongluAgent('planner'), 'donglu-agent-warehouse': ()=>renderDongluAgent('warehouse'), 'donglu-agent-rd': ()=>renderDongluAgent('rd'), 'donglu-agent-req': ()=>renderDongluAgent('req'), 'donglu-agent-procure': ()=>renderDongluAgent('procure'), 'donglu-agent-pm': ()=>renderDongluAgent('pm'), 'donglu-agent-exec': ()=>renderDongluAgent('exec'), 'project-gansu': renderProjectGansu, 'project-city': renderProjectCity, projects: renderProjects };
   c.innerHTML = '';
   (render[section] || renderWelcome)();
 }
@@ -294,6 +294,146 @@ const DONGULU_AGENTS = {
     {name:'个性化数据推送',desc:'步骤1. 用户设置数据推送信息：推送对象、推送数据（决策看板/指标集）、推送时间、推送渠道\n步骤2. 智能体按推送设置创建定时推送任务\n步骤3. 到设定时间自动触发推送任务\n步骤4. 查询最新指标数据\n步骤5. 通过飞书消息或站内通知在规定渠道推送信息\n步骤6. 用户查看推送的经数据看板或指标卡\n步骤7. 支持推送记录查询和推送规则调整',mcp:'mcp-feishu-send-message|mcp-metrics-query',plugins:'notification-plugin|scheduler-plugin',tools:'push-config-manager|scheduled-task-creator|data-pusher',datasources:'  - 推送配置信息库\n  - 指标集数据\n  - 决策看板数据'},
   ]},
 };
+
+// ===== 30个核心经营指标集 =====
+const DONGULU_INDICATORS = {
+  domains: [
+    { name: '销售/订单', color: '#4472C4', icon: '📈', count: 4 },
+    { name: '生产', color: '#3D9F90', icon: '🏭', count: 6 },
+    { name: '设备', color: '#5BA0D0', icon: '🔧', count: 3 },
+    { name: '财务', color: '#E89C3C', icon: '💰', count: 4 },
+    { name: '供应链', color: '#957FC8', icon: '🚚', count: 3 },
+    { name: '质量', color: '#43A993', icon: '✅', count: 2 },
+    { name: '人资', color: '#FF6B6B', icon: '👥', count: 5 },
+    { name: '项目', color: '#FFA94D', icon: '📋', count: 2 },
+    { name: '客户', color: '#748FFC', icon: '🤝', count: 1 },
+  ],
+  indicators: [
+    {id:1,name:'销售额',domain:'销售',unit:'元',period:'日',dim:'时间/客户/厂区/产品/产品类型',desc:'每日销售出库总金额，按不含税销售价计算，是老板每日必看的最核心经营指标。',formula:'出库数量 × 单价(不含税)',system:'鼎捷E10',source:'销货出库单、销售订单、客户应收单'},
+    {id:2,name:'客户销售排名',domain:'销售',unit:'-',period:'日',dim:'客户维度降序',desc:'按日出库金额排序的前列客户名单，用于识别关键客户和销售波动。',formula:'按客户维度过滤销售额，按降序排列',system:'鼎捷E10',source:'销售表（基于销售额按客户分组排序）'},
+    {id:3,name:'产值',domain:'生产',unit:'元',period:'日',dim:'时间/厂区/产品/产品类型',desc:'每日生产入库总金额，按不含税销售价计算，与销售额对比可反映产销平衡情况。',formula:'入库数量 × 销售单价(不含税)',system:'鼎捷E10',source:'生产入库单、销售订单'},
+    {id:4,name:'产量',domain:'生产',unit:'件',period:'日',dim:'时间/厂区/产品/产品类型',desc:'生产入库的产品数量，是计算人均产值、设备效率的基础数据。',formula:'产品入库数量统计',system:'鼎捷E10+精工MES',source:'生产入库单、产品分类'},
+    {id:5,name:'费用和资金状况',domain:'财务',unit:'元',period:'日',dim:'时间/厂区/产品/产品类型',desc:'当日费用支出总额（费控报销+非费控支出），以及截至当日的资金余额状况。',formula:'销售产品采购SUM + 费控系统SUM',system:'鼎捷E10',source:'维护付款单、财务模块相关表'},
+    {id:6,name:'产能效率(OEE)',domain:'设备',unit:'%',period:'日',dim:'天/线体/工厂',desc:'设备综合效率，包含时间开动率、性能开动率和合格品率，衡量设备利用水平。【按线体为单位】',formula:'时间稼动率×性能稼动率×良品率',system:'华制IOT+精工MES+鼎捷E10',source:'IOT设备开动时间 + MES工况 + ERP生产节拍'},
+    {id:7,name:'预算差异率',domain:'财务',unit:'%',period:'月',dim:'部门',desc:'实际费用支出与预算额度的偏离百分比，反映预算管控水平。',formula:'(实际费用-预算额度)÷预算额度×100%',system:'鼎捷E10',source:'实际费用表、会计凭证'},
+    {id:8,name:'利润数据(毛利率)',domain:'财务',unit:'%',period:'月',dim:'销售订单/客户/产品/销售人员/厂区',desc:'按日/周/月统计的经营毛利及毛利率，是最终衡量经营成果的核心指标。',formula:'(收入-成本)÷收入×100%',system:'鼎捷E10',source:'收入表、成本表、费用'},
+    {id:9,name:'生产达成率',domain:'生产',unit:'%',period:'日',dim:'时间/车间/产线/产品',desc:'实际产量与排产计划量的比率，反映计划执行的严肃性。',formula:'实际产量÷计划产量×100%',system:'精工MES+鼎捷E10',source:'MES排产模块-计划量 + ERP生产入库单-实际产量'},
+    {id:10,name:'设备稼动率',domain:'设备',unit:'%',period:'日',dim:'设备/产线',desc:'设备实际运行时间与计划可用时间的比率，反映设备利用效率。',formula:'设备实际运行时间÷计划可用时间×100%',system:'华制智能IOT',source:'IOT设备状态采集（运行/停机、运行时间）'},
+    {id:11,name:'制造费用率',domain:'财务',unit:'%',period:'月',dim:'部门',desc:'制造费用占生产成本或产值的比例，反映制造环节的费用控制水平。',formula:'制造费用÷产值×100%',system:'鼎捷E10',source:'ERP成本模块-制造费用科目'},
+    {id:12,name:'设备异常停机时长',domain:'设备',unit:'分钟',period:'日',dim:'设备/产线',desc:'设备故障导致的生产线停线总时长，反映设备保障能力。',formula:'Σ(故障恢复时间-故障开始时间)',system:'精工MES+协同办公',source:'MES异常记录表+飞书设备异常登记表'},
+    {id:13,name:'项目进度达成率',domain:'项目',unit:'%',period:'月',dim:'部门/项目',desc:'研发项目按里程碑节点完成的比例，反映研发整体推进节奏。',formula:'已完成里程碑数÷总里程碑数×100%',system:'精工PLM',source:'PLM项目表、里程碑表'},
+    {id:14,name:'项目合格率',domain:'项目',unit:'%',period:'月',dim:'部门/项目',desc:'研发项目首次试产即通过验收的占比，反映研发质量。',formula:'首次试产通过数÷试产总数×100%',system:'精工PLM+精工MES+鼎捷E10',source:'PLM项目表 + MES工单表+ERP试产工单表'},
+    {id:15,name:'新业务拓展数据',domain:'销售',unit:'笔/元',period:'日',dim:'时间/工厂',desc:'新客户开发数量、新客户首单金额等，反映市场拓展进展。',formula:'新客户数=当日新增有效客户数；首单金额=新客户首单出库金额SUM',system:'鼎捷E10',source:'销售订单/客户表'},
+    {id:16,name:'订单量',domain:'销售',unit:'笔',period:'日',dim:'时间/工厂',desc:'每日/每周新接订单数量，是销售额的先行指标。',formula:'当日/每周有效新增订单数量SUM',system:'鼎捷E10',source:'销售订单'},
+    {id:17,name:'客户满意度得分',domain:'客户',unit:'分',period:'季',dim:'部门',desc:'通过定期向客户各职能部门发送问卷汇总的综合满意度分数。',formula:'Σ(问卷得分)÷有效问卷数',system:'协同办公',source:'飞书客户问卷打分表'},
+    {id:18,name:'到货及时率',domain:'供应链',unit:'%',period:'日',dim:'部门/供应商',desc:'采购物料按承诺交期到货的比例，反映供应链保障能力。',formula:'按时到货批次÷总到货批次×100%',system:'携客云SRM',source:'SRM采购订单表+采购入库/到货明细表'},
+    {id:19,name:'降本率',domain:'供应链',unit:'%',period:'月',dim:'部门/供应商',desc:'全公司采购成本综合下降比例，反映供应链成本控制成效。',formula:'(基期成本-本期成本)÷基期成本×100%',system:'鼎捷E10',source:'采购表、供应商价格历史表'},
+    {id:20,name:'计划达成率',domain:'生产',unit:'%',period:'日',dim:'时间/车间/产线/产品',desc:'生产计划与实际执行的符合度，含数量和交期两个维度。',formula:'(符合数量+交期订单数)÷总计划订单数×100%',system:'精工MES+鼎捷E10',source:'MES工单计划表+工单执行表+ERP生产入库单'},
+    {id:21,name:'库存周转率',domain:'供应链',unit:'次',period:'月',dim:'部门/产品',desc:'全公司整体库存周转效率，反映运营资金占用水平。',formula:'销货成本÷[(期初库存+期末库存)÷2]',system:'鼎捷E10+鼎捷WMS',source:'ERP存货台账表+销售出库表'},
+    {id:22,name:'物料齐套率',domain:'生产',unit:'%',period:'日',dim:'部门/工单',desc:'工单开工前物料齐套比例，反映计划与物控协同效果。',formula:'齐套工单数÷总开工工单数×100%',system:'精工MES+鼎捷WMS+鼎捷E10',source:'MES工单表+WMS库存表'},
+    {id:23,name:'招聘达成率',domain:'人资',unit:'%',period:'月',dim:'部门',desc:'招聘计划完成比例，反映人力补充进度。',formula:'实际到岗人数÷计划招聘人数×100%',system:'协同办公',source:'飞书招聘计划表+入职记录表'},
+    {id:24,name:'人力效率',domain:'人资',unit:'元/人',period:'月',dim:'部门',desc:'全公司或分部门的人均产出效率，反映人效水平。',formula:'产值÷工时总数',system:'鼎捷E10+薪福通+协同办公',source:'ERP生产入库表+薪福通考勤表'},
+    {id:25,name:'人员流失率',domain:'人资',unit:'%',period:'季',dim:'部门/岗位',desc:'关键岗位或全员流失比例，反映组织稳定性。',formula:'离职人数÷[(期初人数+期末人数)÷2]×100%',system:'薪福通+协同办公',source:'薪福通员工表+飞书离职记录表'},
+    {id:26,name:'人均产值',domain:'人资',unit:'元/人',period:'日',dim:'部门/产线',desc:'人均产出，产值/出勤人数',formula:'当日产值÷普工出勤人数×100%',system:'薪福通+鼎捷E10',source:'薪福通出勤人数+ERP产值'},
+    {id:27,name:'人力成本产出比',domain:'人资',unit:'%',period:'月',dim:'部门',desc:'薪酬/总产值',formula:'当月总薪酬÷当月总产值×100%',system:'薪福通+鼎捷E10',source:'薪福通薪酬+ERP产值'},
+    {id:28,name:'来料合格率',domain:'质量',unit:'%',period:'日',dim:'订单/时间/供应商',desc:'IQC检验合格批次占总检验批次的比例，反映供应商质量水平。',formula:'IQC合格批次÷总检验批次×100%',system:'携客云SRM',source:'SRM检验单表+检验明细表'},
+    {id:29,name:'生产直通率',domain:'生产',unit:'%',period:'日',dim:'部门/产线',desc:'产线一次性通过所有测试的产品比例，反映制程质量控制水平。',formula:'一次性通过产品数÷总投入产品数×100%',system:'协同办公+精工MES',source:'飞书手工报表+MES工单/工序检验表'},
+    {id:30,name:'重大异常数量',domain:'质量',unit:'件',period:'日',dim:'部门/类型',desc:'影响交付或造成重大损失的质量、设备异常发生次数。',formula:'Σ当日填报次数+系统识别次数',system:'协同办公+精工MES',source:'飞书手工报表+MES异常记录表'},
+  ]
+};
+
+function renderDongluIndicators() {
+  const c = $('content');
+  const di = DONGULU_INDICATORS;
+  const domainColors = {};
+  di.domains.forEach(d => { domainColors[d.name] = d.color; });
+  
+  // Group indicators by domain
+  const grouped = {};
+  di.indicators.forEach(ind => {
+    if (!grouped[ind.domain]) grouped[ind.domain] = [];
+    grouped[ind.domain].push(ind);
+  });
+
+  c.innerHTML = `
+    <div class="section-header fade-in"><h1>📊 30个核心经营指标集</h1><p>基于蓝图第七章 · 覆盖9大业务域 · 构建经营决策数据底座</p></div>
+    <div class="card fade-in" style="background:var(--primary-light);margin-bottom:16px">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center">
+        <span style="font-size:14px;font-weight:600;color:var(--primary)">🏷️ 9大业务域 · 30个指标</span>
+        <span style="font-size:12px;color:#666">数据来源：鼎捷E10 · 精工MES · 华制IOT · 携客云SRM · 薪福通 · 飞书</span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;justify-content:center">
+        ${di.domains.map(d => `<span style="padding:4px 12px;border-radius:12px;background:${d.color}15;color:${d.color};font-size:12px;font-weight:500">${d.icon} ${d.name} (${d.count})</span>`).join('')}
+      </div>
+    </div>
+    <!-- Compact summary table -->
+    <div class="card fade-in" style="padding:0;overflow:hidden">
+      <table style="width:100%;border-collapse:collapse;font-size:12px">
+        <thead>
+          <tr style="background:linear-gradient(135deg,#2E7D6F,#3D9F90);color:#fff">
+            <th style="padding:10px 8px;text-align:center;width:40px">#</th>
+            <th style="padding:10px 8px;text-align:left">指标名称</th>
+            <th style="padding:10px 8px;text-align:center;width:70px">业务域</th>
+            <th style="padding:10px 8px;text-align:center;width:50px">单位</th>
+            <th style="padding:10px 8px;text-align:center;width:40px">周期</th>
+            <th style="padding:10px 8px;text-align:left">指标描述</th>
+            <th style="padding:10px 8px;text-align:left">公式/口径</th>
+            <th style="padding:10px 8px;text-align:left">归属系统</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${di.indicators.map((ind, i) => {
+            const dc = domainColors[ind.domain] || '#666';
+            return `<tr style="border-bottom:1px solid #eee;${i%2===0?'background:#fff':'background:#F9FAFB'}">
+              <td style="padding:8px;text-align:center;font-weight:600;color:${dc}">${ind.id}</td>
+              <td style="padding:8px;text-align:left;font-weight:500">${ind.name}</td>
+              <td style="padding:8px;text-align:center"><span style="padding:2px 8px;border-radius:8px;background:${dc}15;color:${dc};font-size:10px;font-weight:500">${ind.domain}</span></td>
+              <td style="padding:8px;text-align:center;color:#666">${ind.unit}</td>
+              <td style="padding:8px;text-align:center;color:#666">${ind.period}</td>
+              <td style="padding:8px;text-align:left;color:#555;font-size:11px;line-height:1.4">${ind.desc}</td>
+              <td style="padding:8px;text-align:left;color:#555;font-size:10px;line-height:1.4">${ind.formula}</td>
+              <td style="padding:8px;text-align:left;color:#555;font-size:10px">${ind.system}</td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>
+    <!-- Domain drilldown cards -->
+    <div style="margin-top:16px">
+      <div class="section-header fade-in" style="padding:0;margin-bottom:10px"><h2 style="font-size:16px">📂 按业务域分组详情</h2></div>
+      ${di.domains.map(d => {
+        const inds = grouped[d.name] || [];
+        return `
+        <div class="card fade-in" style="border-left:4px solid ${d.color};margin-bottom:12px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+            <span style="font-size:22px">${d.icon}</span>
+            <div><span style="font-size:15px;font-weight:600;color:${d.color}">${d.name}域</span><span style="font-size:11px;color:#999;margin-left:8px">${inds.length}个指标</span></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            ${inds.map(ind => `
+              <div style="padding:10px;border-radius:6px;background:#fff;border:1px solid ${d.color}15">
+                <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+                  <span style="width:22px;height:22px;border-radius:50%;background:${d.color};color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">${ind.id}</span>
+                  <span style="font-size:13px;font-weight:600;color:#222">${ind.name}</span>
+                  <span style="font-size:10px;color:#999;margin-left:auto">${ind.unit} · ${ind.period}</span>
+                </div>
+                <div style="font-size:11px;color:#555;line-height:1.4">${ind.desc}</div>
+                <div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap">
+                  <span style="font-size:9px;padding:2px 6px;border-radius:4px;background:#E8EFF9;color:#4472C4">📐 ${ind.formula}</span>
+                  <span style="font-size:9px;padding:2px 6px;border-radius:4px;background:#E8F5F3;color:#3D9F90">🔗 ${ind.system}</span>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div class="card fade-in" style="background:var(--primary-light);text-align:center">
+      <div style="font-size:13px;font-weight:600;color:var(--primary);margin-bottom:4px">📋 总计：30个核心经营指标</div>
+      <div style="font-size:11px;color:#666">覆盖9大业务域 · 数据基于鼎捷E10/精工MES/华制IOT/携客云SRM/薪福通/飞书多系统融合</div>
+    </div>
+  `;
+}
 
 function renderDongluEmployees() {
   const c = $('content');
