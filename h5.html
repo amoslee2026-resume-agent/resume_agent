@@ -258,12 +258,30 @@ function renderH5City(){
       </div>
     </div>
     ${p.sections.map(s=>`
-      <div class="card"><div class="card-title" style="font-size:14px;color:${s.color}">${s.title}</div>${s.items.map(item=>`<div style="padding:3px 0;font-size:12px;display:flex;gap:6px"><span style="color:${s.color}">▸</span>${item}</div>`).join('')}</div>
+      <div class="card"><div class="card-title" style="font-size:14px;color:${s.color}">${s.title}</div>${s.items.map(item=>'<div style="padding:3px 0;font-size:12px;display:flex;gap:6px"><span style="color:'+s.color+'">▸</span>'+item+'</div>').join('')}</div>
     `).join('')}
+    
+    <!-- 城市试点等级 -->
+    <div class="card"><div class="card-title">🏙️ 评估等级</div>
+      ${CITY_PILOT_LEVELS.levels.map(l=>'<div style="padding:6px 8px;margin:4px 0;border-radius:6px;background:var(--bg);border-left:3px solid '+l.color+';display:flex;gap:8px;align-items:center"><div style="flex-shrink:0;text-align:center;width:36px"><div>'+l.icon+'</div><div style="font-size:12px;font-weight:700;color:'+l.color+'">L'+l.level+'</div></div><div><div style="font-size:12px;font-weight:600;color:'+l.color+'">'+l.name+'</div><div style="font-size:10px;color:#555">'+l.desc.substring(0,40)+'...</div></div></div>').join('')}
+      <div class="summary" style="margin-top:6px;font-size:10px">东陆上线后可达L3集成提升级</div>
+    </div>
+    
+    <!-- CMMM -->
+    <div class="card"><div class="card-title">📊 CMMM成熟度等级</div>
+      ${CMMM_LEVELS.levels.map(l=>'<div style="display:flex;gap:8px;padding:5px 0;align-items:center"><div style="width:30px;height:30px;border-radius:50%;background:'+l.color+';color:'+(l.level<=2?'#333':'#fff')+';display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">'+l.level+'</div><div style="flex:1"><div style="font-size:12px;font-weight:600;color:'+l.color+'">'+l.name+'</div><div style="font-size:10px;color:#555;line-height:1.3">'+l.desc.substring(0,45)+'...</div></div>'+(l.level===3?'<span style="font-size:9px;background:'+l.color+';color:#fff;padding:2px 6px;border-radius:4px;font-weight:600">目标</span>':'')+'</div>').join('')}
+    </div>
+    
+    <!-- 梯度培育 -->
+    <div class="card"><div class="card-title">🏆 梯度培育</div>
+      ${GRADIENT_LEVELS.tiers.map(t=>'<div style="padding:8px 10px;margin:4px 0;border-radius:6px;background:'+t.color+'08;border:1px solid '+t.color+'30"><div style="display:flex;gap:6px;align-items:center"><span style="font-size:18px">'+t.icon+'</span><span style="font-size:13px;font-weight:600;color:'+t.color+'">'+t.name+'</span><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:'+t.color+';color:#fff">'+t.cmmm+'</span></div><div style="font-size:10px;color:#555;margin-top:2px">'+t.path.substring(0,50)+'...</div><div style="font-size:9px;color:'+t.color+';margin-top:2px">🏷️ '+t.policy.substring(0,40)+'...</div></div>').join('')}
+      <div class="summary" style="margin-top:6px;font-size:10px">东陆可达先进级(第二梯队)</div>
+    </div>
+    
     <div class="card">
       <div class="card-title" style="font-size:14px;color:${p.color}">🔄 融合价值</div>
-      <div class="fusion">${p.fusion.map(f=>`<div class="fus"><div class="fi">${f.icon}</div><div class="ft" style="color:${p.color}">${f.title}</div><div class="fd">${f.desc}</div></div>`).join('')}</div>
-      <div class="summary" style="margin-top:10px">💡 通过300+家企业评估，深度理解中小制造企业4大共性痛点——系统孤岛/协同低效/数据失真/经验依赖，直接赋能东陆AI平台方案设计。</div>
+      <div class="fusion">${p.fusion.map(f=>'<div class="fus"><div class="fi">'+f.icon+'</div><div class="ft" style="color:'+p.color+'">'+f.title+'</div><div class="fd">'+f.desc+'</div></div>').join('')}</div>
+      <div class="summary" style="margin-top:10px">💡 300+家企业评估深度理解4大共性痛点，评估等级+CMMM+梯度培育完整展示，客户申报补贴时可直接使用。</div>
     </div>
   `
 }

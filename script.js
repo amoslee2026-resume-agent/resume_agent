@@ -693,11 +693,11 @@ function renderProjectGansu() {
   `;
 }
 
-// ===== 城市试点×成熟度 =====
+// ===== 城市试点×成熟度（含评估等级·CMMM·梯度培育） =====
 function renderProjectCity() {
   const c = $('content'); const p = RESUME_DATA.projects[1];
   c.innerHTML = `
-    <div class="section-header fade-in"><h1>🏙️ 城市试点 × 智能制造成熟度评估</h1><p>政企融合项目 · 300+家企业评估数据沉淀</p></div>
+    <div class="section-header fade-in"><h1>🏙️ 城市试点 × 智能制造成熟度评估</h1><p>政企融合 · 300+家企业评估数据 · 评估等级·CMMM·梯度培育完整展示</p></div>
     <div class="project-card fade-in" style="border-left-color:${p.color}">
       <div class="header"><h2 style="color:${p.color}">${p.name}</h2><div class="meta">${p.period} · ${p.role}</div></div>
       <div style="margin-bottom:12px"><span class="highlight">${p.highlight}</span></div>
@@ -724,6 +724,88 @@ function renderProjectCity() {
       <div style="margin-top:8px;font-size:11px;color:var(--text2);text-align:center;padding:6px;background:var(--bg);border-radius:6px">📊 覆盖行业：3C电子 · 机械设备 · 金属加工 · 食品医药 · 模具制造 · 光电通信 · 自动化设备</div>
     </div>
 
+    <!-- ===== 城市试点评估等级 ===== -->
+    <div class="card fade-in">
+      <div class="card-title">🏙️ 城市试点智能制造评估等级</div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:14px;line-height:1.5">${CITY_PILOT_LEVELS.desc}</div>
+      ${CITY_PILOT_LEVELS.levels.map(l => `
+        <div style="display:flex;gap:12px;padding:10px 12px;margin-bottom:6px;border-radius:8px;background:var(--bg);border-left:4px solid ${l.color};align-items:flex-start">
+          <div style="text-align:center;flex-shrink:0;width:50px">
+            <div style="font-size:18px">${l.icon}</div>
+            <div style="font-size:15px;font-weight:700;color:${l.color}">L${l.level}</div>
+          </div>
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:600;color:${l.color}">${l.name}</div>
+            <div style="font-size:11px;color:var(--text);line-height:1.4;margin-top:2px">${l.desc}</div>
+            <div style="font-size:10px;color:var(--text2);margin-top:2px">适用：${l.scope}</div>
+          </div>
+        </div>
+      `).join('')}
+      <div style="margin-top:10px;padding:8px 12px;background:var(--primary-light);border-radius:8px">
+        <div style="font-size:11px;font-weight:600;color:var(--primary)">💡 东陆项目关联</div>
+        <div style="font-size:10px;color:#555;line-height:1.4;margin-top:2px">东陆AI平台上线前处于L2单项应用级（ERP在用但MES未完全覆盖）。平台完成后8系统集成+数据治理+26智能体，达到L3集成提升级，部分场景冲击L4协同优化级。</div>
+      </div>
+    </div>
+
+    <!-- ===== CMMM 成熟度等级 ===== -->
+    <div class="card fade-in">
+      <div class="card-title">📊 智能制造能力成熟度模型（CMMM·GB/T 39116-2020）</div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:14px;line-height:1.5">${CMMM_LEVELS.desc}</div>
+      <div style="position:relative;margin:12px 0">
+        <div style="position:absolute;left:24px;top:10px;bottom:10px;width:3px;background:linear-gradient(to bottom,#E8E8E8,#5BA0D0,#3D9F90,#E89C3C,#FF6B6B);border-radius:2px"></div>
+        ${CMMM_LEVELS.levels.map(l => `
+          <div style="display:flex;gap:12px;padding:8px 0;align-items:flex-start;position:relative">
+            <div style="flex-shrink:0;width:50px;text-align:center;z-index:1">
+              <div style="display:inline-flex;width:28px;height:28px;border-radius:50%;background:${l.color};color:${l.level <=2?'#333':'#fff'};align-items:center;justify-content:center;font-size:12px;font-weight:700;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.1)">${l.level}</div>
+            </div>
+            <div style="flex:1;padding:2px 10px 6px;border-radius:8px;background:#fff;border:1px solid ${l.level===3?l.color:'#eee'};${l.level===3?'box-shadow:0 2px 6px '+l.color+'20':''};position:relative">
+              ${l.level===3?'<div style="position:absolute;top:-7px;right:8px;padding:1px 6px;border-radius:6px;background:'+l.color+';color:#fff;font-size:9px;font-weight:600">🎯 东陆目标</div>':''}
+              <div style="font-size:13px;font-weight:600;color:${l.color}">${l.icon} ${l.name}</div>
+              <div style="font-size:10px;color:var(--text);line-height:1.4;margin-top:1px">${l.desc}</div>
+              <div style="font-size:9px;color:var(--text2);margin-top:2px">${l.typical}</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+      <div style="margin-top:12px">
+        <div style="font-size:12px;font-weight:600;margin-bottom:6px">🔍 四大能力域（18个关键子域）</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+          ${CMMM_LEVELS.domains.map(d => `
+            <div style="padding:8px 10px;border-radius:6px;background:${d.color}08;border:1px solid ${d.color}20">
+              <div style="font-size:12px;font-weight:600;color:${d.color};margin-bottom:2px">${d.name}</div>
+              ${d.items.map(i => `<div style="font-size:10px;color:#555;padding:1px 0">▸ ${i}</div>`).join('')}
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 梯度培育等级 ===== -->
+    <div class="card fade-in">
+      <div class="card-title">🏆 智能工厂梯度培育（工信部·三个梯度）</div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:14px;line-height:1.5">${GRADIENT_LEVELS.desc}</div>
+      ${GRADIENT_LEVELS.tiers.map(t => `
+        <div style="display:flex;gap:12px;padding:10px 12px;margin-bottom:8px;border-radius:8px;background:${t.color}06;border:1px solid ${t.color}30;border-left:4px solid ${t.color}">
+          <div style="text-align:center;flex-shrink:0;width:70px">
+            <div style="font-size:24px">${t.icon}</div>
+            <div style="font-size:11px;font-weight:700;color:${t.color}">${t.name}</div>
+          </div>
+          <div style="flex:1">
+            <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:4px">
+              <span style="padding:1px 6px;border-radius:3px;background:${t.color};color:#fff;font-size:9px;font-weight:600">${t.cmmm}</span>
+              <span style="padding:1px 6px;border-radius:3px;background:${t.color}20;color:${t.color};font-size:9px;font-weight:600">${t.core}</span>
+            </div>
+            <div style="font-size:10px;color:var(--text);line-height:1.4">${t.path}</div>
+            <div style="margin-top:3px;padding:4px 8px;background:#fff;border-radius:4px;border:1px dashed ${t.color}40;font-size:9px;color:#555"><strong style="color:${t.color}">📋</strong> ${t.policy}</div>
+          </div>
+        </div>
+      `).join('')}
+      <div style="margin-top:10px;padding:8px 12px;background:var(--primary-light);border-radius:8px">
+        <div style="font-size:11px;font-weight:600;color:var(--primary)">💡 梯度路径建议</div>
+        <div style="font-size:10px;color:#555;line-height:1.4;margin-top:2px">东陆AI平台上线后，8系统集成+数据治理+26智能体覆盖全价值链，可确保达到先进级（第二梯队）。后续持续积累AI场景和数据资产后可申报领航级。方案中已将梯度培育路径写入，帮助客户从基础级到领航级的提升路线规划，同步争取各级政策补贴。</div>
+      </div>
+    </div>
+
     <div class="card fade-in">
       <div class="card-title" style="color:${p.color}">🔄 两项目融合价值</div>
       <div class="fusion-grid">
@@ -731,8 +813,8 @@ function renderProjectCity() {
           <div class="fusion-item"><div class="fi-icon">${f.icon}</div><div class="fi-title" style="color:${p.color}">${f.title}</div><div class="fi-desc">${f.desc}</div></div>
         `).join('')}
       </div>
-      <div style="margin-top:12px;padding:12px;background:var(--primary-light);border-radius:8px;font-size:12px;color:var(--primary);font-weight:500">
-        💡 关键成果：通过大规模企业评估，深度理解中小制造企业4大共性痛点——系统数据不通、部门协同低效、底层数据失真、核心业务依赖人工经验。这些认知直接赋能后续东陆AI智能平台方案设计。
+      <div style="margin-top:12px;padding:12px;background:var(--primary-light);border-radius:8px;font-size:12px;color:var(--primary);font-weight:500;line-height:1.6">
+        💡 关键成果：通过300+家企业评估，深度理解4大共性痛点。城市试点实地数据验证评估模型，成熟度评估方法论提升诊断专业性。两者互哺直接赋能东陆AI平台方案——方案对接CMMM三级（集成级）标准，同时符合梯度培育先进级要求，客户申报补贴时可直接使用。
       </div>
     </div>
   `;
